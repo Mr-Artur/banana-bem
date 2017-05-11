@@ -43,9 +43,7 @@ export class UserCode {
     }
 
     private _codeTags(before, from, arr) {
-        debugger
-        //find all tags in arr[str]
-
+        //find all tags in arr[str]        
         // if str = div.header work this rule ↓
         if (typeof (before) === "number" && typeof (from) === "number") {
 
@@ -59,8 +57,7 @@ export class UserCode {
         }
         // if str = div.header>div.nav>ul.menu work this rule ↓        
         else if (typeof (before) === "object" && typeof (from) === "object") {
-            console.log('also not work');
-            
+
             for (let i = 0; i < before.length; i++) {
 
                 if (i === 0) {
@@ -68,11 +65,15 @@ export class UserCode {
                         "parent": arr.substring(0, before[0]),
                         "child": []
                     });
+                } else if (i === (before.length - 1)) {
+
+                    break;
+
                 } else {
-                    this._tags[0].child.push({
-                        "child-parent": arr.substring(from[i-1],before[i]),
-                        "children": arr.substring(from[i+1],before[i+1])
-                    })
+                    this._tags[this._tags.length - 1].child.push({
+                        "child-parent": arr.substring(from[i - 1] + 1, before[i]),
+                        "children": arr.substring(from[i] + 1, before[i + 1])
+                    });
                 }
 
             }
@@ -88,7 +89,7 @@ export class UserCode {
                         "child": ""
                     });
                 } else {
-                    this._tags[i].child = arr.substring(from + 1, before[i])
+                    this._tags[this._tags.length - 1].child = arr.substring(from + 1, before[i])
                 }
 
             }
@@ -100,7 +101,7 @@ export class UserCode {
     }
 
     private _codeClassName(from, before, arr) {
-
+        debugger
         //find all class names in arr[str]
 
         // if str = div.header work this rule ↓
@@ -109,7 +110,7 @@ export class UserCode {
             if (before === 0 && from !== 0) {
                 from = from + 1;
                 before = arr.length - from;
-                this._classNames.push(arr.substr(from, before));
+                this._classNames.push(arr.substr(from, before - 1));
             }
 
         }
@@ -120,8 +121,19 @@ export class UserCode {
         }
         // if str = div.header>div.nav work this rule ↓
         else if (typeof (from) === "object" && typeof (before) === "number") {
-
             console.log('also not work');
+            for (let i = 0; i < from.length; i++) {
+                if (i === 0) {
+                    let end = before - from[0];
+                    end = end - 1;
+                    this._classNames.push({
+                        "parent": arr.substr(from[0] + 1, end),
+                        "child": ""
+                    });
+                } else {
+                    this._classNames[this._classNames.length - 1].child = arr.substr(from[i] + 1);
+                }
+            }
         }
         console.log('class names: ');
         console.log(this._classNames);

@@ -2,7 +2,8 @@
     <p class="template__caption">
         {{renderToDo.name}}
     </p>
-    <div *ngIf="renderToDo.name === 'user-code'" class="add child element">
+    <div *ngIf="renderToDo.name === 'user-code'" class="template__info-user-code">
+        <div class="info-user-code">
         <p>How to use: </p>
         <p>
             <b>first:</b> selector , <b>second:</b> <b>.</b>class , <b>third:</b> <b> > </b> add child element.
@@ -12,6 +13,14 @@
         div.header>div.nav
         </span>
         </p>
+        </div>
+        <div class="info-user-code info-user-code--warning">
+           <span><strong>Warning! </strong> user-code does not work with such examples: </span>
+           <p>
+           <span>div.header>div</span> <br>
+           <span>div>div.header>ul and etc.</span> 
+           </p>
+        </div>
         <div class="user-code">
             
             <div class="user-code__textarea">
