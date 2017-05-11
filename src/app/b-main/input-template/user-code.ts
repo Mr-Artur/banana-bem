@@ -3,7 +3,7 @@ export class UserCode {
     private _tags = [];
     private _classNames = [];
 
-    private _findSubstring(string, target) {
+    private findSubstring(string, target) {
 
         let str = string;
         let innerElement = target;
@@ -26,7 +26,7 @@ export class UserCode {
 
     }
 
-    private _checkCodeString(check) {
+    private checkCodeString(check) {
         let str = check;
         let reg = /./g;
 
@@ -42,7 +42,7 @@ export class UserCode {
 
     }
 
-    private _codeTags(before, from, arr) {
+    private codeTags(before, from, arr) {
         //find all tags in arr[str]        
         // if str = div.header work this rule ↓
         if (typeof (before) === "number" && typeof (from) === "number") {
@@ -63,14 +63,14 @@ export class UserCode {
                 if (i === 0) {
                     this._tags.push({
                         "parent": arr.substring(0, before[0]),
-                        "child": []
+                        "childs": []
                     });
                 } else if (i === (before.length - 1)) {
 
                     break;
 
                 } else {
-                    this._tags[this._tags.length - 1].child.push({
+                    this._tags[this._tags.length - 1].childs.push({
                         "child-parent": arr.substring(from[i - 1] + 1, before[i]),
                         "children": arr.substring(from[i] + 1, before[i + 1])
                     });
@@ -95,15 +95,11 @@ export class UserCode {
             }
 
         }
-        console.log('tags: ');
-        console.log(this._tags);
-        console.log('_______');
+
     }
 
-    private _codeClassName(from, before, arr) {
-        debugger
-        //find all class names in arr[str]
-
+    private codeClassName(from, before, arr) {
+        //find all class names in arr[str]       
         // if str = div.header work this rule ↓
         if (typeof (from) === "number" && typeof (before) === "number") {
 
@@ -117,11 +113,43 @@ export class UserCode {
         // if str = div.header>div.nav>ul.menu work this rule ↓        
         else if (typeof (from) === "object" && typeof (before) === "object") {
             console.log('also not work');
+            let step = 0;
+            for (let i = 0; i < from.length; i++) {
+
+                if (i === 0) {
+                    let end = before[0] - from[0];
+                    end = end - 1;
+                    this._classNames.push({
+                        "parent": arr.substr(from[0] + 1, end),
+                        "childs": []
+                    });
+                } else if (i === (from.length - 1)) {
+
+                    break;
+
+                } else {
+                    // parse string by the name class
+                    let end = before[i] - from[i]; // last point parent element
+                    end = end - 1;
+                    step++; //step for correct display child elem
+                    let beforeEnd = before[step + i] - from[i + 1]; // last point child element
+                    beforeEnd = beforeEnd - 1;
+                    beforeEnd = isNaN(beforeEnd) ? arr.length : beforeEnd;
+                    // if child is NaN, add to him length string. 
+                    //This if need becouse beforeEnd became not found in [before]                    
+                    this._classNames[this._classNames.length - 1].childs.push({
+                        "child-parent": arr.substr(from[i] + 1, end),
+                        "children": arr.substr(from[step + i] + 1, beforeEnd)
+                    });
+                    step--; // reset step
+
+                }
+            }
 
         }
         // if str = div.header>div.nav work this rule ↓
         else if (typeof (from) === "object" && typeof (before) === "number") {
-            console.log('also not work');
+
             for (let i = 0; i < from.length; i++) {
                 if (i === 0) {
                     let end = before - from[0];
@@ -135,11 +163,18 @@ export class UserCode {
                 }
             }
         }
-        console.log('class names: ');
-        console.log(this._classNames);
-        console.log('_______');
+
     }
 
+    private bundleTemplate(tags, classNames) {
+        console.log('tags: ');
+        console.log(tags);
+        console.log('_______');
+        console.log('class names: ');
+        console.log(classNames);
+        console.log('_______');
+
+    }
 
     public get userTemplate() {
 
@@ -149,7 +184,7 @@ export class UserCode {
 
     public setUserCode(code) {
 
-        // this._checkCodeString(code);
+        // this.checkCodeString(code);
         let str = code;
         //let str = 'div.header\ndiv.test>ul.menu>li.active>p.test\ndiv';   
         this._tags = []; //clear array tags
@@ -163,8 +198,8 @@ export class UserCode {
         // two function for creating full object from items [dot] and [innerElemen]
         for (let i = 0; i < arrString.length; i++) {
 
-            dot.push(this._findSubstring(arrString[i], '.').join());
-            innerElement.push(this._findSubstring(arrString[i], '>').join());
+            dot.push(this.findSubstring(arrString[i], '.').join());
+            innerElement.push(this.findSubstring(arrString[i], '>').join());
 
 
             //converting array, string to integer
@@ -205,13 +240,14 @@ export class UserCode {
 
                 }
 
-                this._codeTags(dot[a], innerElement[a], arrString[i]);
-                this._codeClassName(dot[a], innerElement[a], arrString[i]);
-
+                this.codeTags(dot[a], innerElement[a], arrString[i]);
+                this.codeClassName(dot[a], innerElement[a], arrString[i]);
 
             }
 
         }
+
+        this.bundleTemplate(this._tags, this._classNames);
 
     }
 
