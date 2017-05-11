@@ -1,0 +1,8 @@
+.header {
+    display: flex;
+    padding: 0 3%;
+}
+.header__logo h1 {
+  margin-bottom: 0.2em;
+}
+.header__logo span { margin: 0 11px; }

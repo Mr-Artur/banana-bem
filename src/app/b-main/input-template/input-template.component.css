@@ -1,0 +1,238 @@
+.inp-temaplate__template {
+    display: flex;
+    flex-direction: column;    
+}
+.template__caption {
+    text-align: center;
+    font-weight: 700;
+    font-size: 22px;
+    color: #7e3f12;
+}
+.template__caption::first-letter {
+    text-transform: uppercase;
+}
+.template__user-code {
+    display: flex;
+    font-size: 1.2em;
+}
+.user-code {
+    display: flex;
+}
+.user-code__textarea > textarea:focus {
+    outline: none;
+}
+.user-code__buttons {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+}
+.user-code__buttons > * {
+   margin-bottom: 20px;
+}
+.user-code__buttons > span > input {
+    display: inline-block;
+    width: 18px;
+    cursor: pointer;
+}
+.template__code-block {
+   margin-left: 60px;
+   font-size: 17px;
+}
+.code-block__open-tag, .code-block__close-tag {
+    padding: 15px 0 5px 0;
+}
+.code-block__elements {
+  padding-top: 10px;
+  padding-left: 15px;
+  padding-bottom: 15px;
+}
+.code-block__tooltip {
+    position: relative;
+    display: inline-block;
+}
+.code-block__tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: bisque;
+    color: #000000;
+    border: 1px solid #7e3f12;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -60px;    
+    opacity: 0;
+    transform: rotate(-50deg);
+    transition: all 0.3s ease-in-out;
+}
+
+.code-block__tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #7e3f12 transparent transparent transparent;
+}
+
+.tooltiptext--show {
+    visibility: visible;    
+    opacity: 1;
+    transform: rotate(0deg);
+}
+.code-block__elements:last-child {
+    padding-bottom: 10px;
+}
+.elements__child-element {
+    padding: 10px 10px 5px 10px;
+}
+.elements-add {
+    padding: 2px 9px;
+    border-radius: 5px;
+    background-color: yellowgreen;
+    color: #ffffff;
+    margin-left: 3px;
+    transition: color 0.3s, background-color 0.2s;
+}
+.elements-add:hover {
+    cursor: pointer;
+    color: #000000;
+    background-color: #1acd02;
+}
+.elements-deleted {
+    padding: 2px 9px;
+    border-radius: 5px;
+    background-color: #99ccff;
+    color: #ffffff;
+    margin-left: -15px;
+    transition: color 0.3s, background-color 0.2s;
+}
+.elements-deleted:hover {
+    cursor: pointer;
+    color: #000000;
+    background-color: #11ccff;
+}
+.child-element {
+    padding: 0 10px 10px 25px;
+}
+.child-element__input-form {
+    display: inline-block;
+}
+.name-element--child {
+    margin: -1px 2px;
+}
+.code-block__sub-elem span:first-child {
+    background-color: bisque;
+    border-radius: 20px;
+    padding: 0 7px;
+    border: 1px solid #7e3f12;
+    font-size: 20px;
+}
+.code-block__sub-elem span:first-child:hover {
+    cursor: pointer;
+}
+.code-block__select {
+    border: 0;
+    border-bottom: 0.5px solid #7e3f12;
+}
+.code-block__select:focus {
+    outline: 0;
+    border-bottom: 0.5px solid #7e3f12;
+}
+.code-block__name-element {
+    border: 0;
+    border-bottom: 0.5px solid #7e3f12;    
+    width: 120px;
+}
+.code-block__name-element:hover { cursor: pointer; }
+.code-block__name-element:focus {
+    outline: 0;
+}
+.code-block__modifier {
+    font-size: 1em;
+    font-weight: bold;
+    margin-left: 10px;
+}
+.code-block__modifier:hover {
+    cursor: pointer;
+}
+.code-block {
+    position: relative;
+}
+.code-block__modifier--input {
+    border: 0;
+    border-bottom: 0.5px solid #7e3f12;    
+    width: 120px;
+}
+.code-block__modifier--input:focus {
+    outline: 0;
+}
+.code-block__modifier:hover + .modifier {
+    display: block;    
+}
+.modifier {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 150px;
+    padding: 0 10px;
+    background-color: bisque;
+    border: 1px solid #7e3f12;
+    border-radius: 10px;    
+}
+.inp-template__save-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 150px;
+}
+.btn {
+    border: 0;
+}
+.save-btn {
+    border-radius: 5px;
+    width: 80px;
+    height: 40px;
+    background-color: #7e3f12;
+    color: #fff;
+    transition: background-color 0.3s, color 0.4s;
+}
+.save-btn:hover {
+    cursor: pointer;
+    background-color:#3e3f12;
+    color: yellow;
+}
+
+.elements-icon {
+    padding: 5px;
+    background-color: #11ccff;
+    border-radius: 5px;
+    color: #ffffff;
+    transform: rotate(90deg);
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1460px) {
+
+   .modifier {
+    top: 80%;
+    left: 35%;
+   }
+
+}
+
+@media screen and (max-width: 767px) and (min-width: 320px) {
+
+   .inp-template__template {
+       display: none;
+   }
+   
+}

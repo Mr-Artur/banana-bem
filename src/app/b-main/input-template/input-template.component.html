@@ -1,0 +1,161 @@
+<div class="inp-template__template ">
+    <p class="template__caption">
+        {{renderToDo.name}}
+    </p>
+    <div *ngIf="renderToDo.name === 'user-code'" class="add child element">
+        <p>How to use: </p>
+        <p>
+            <b>first:</b> selector , <b>second:</b> <b>.</b>class , <b>third:</b> <b> > </b> add child element.
+            <br>
+            <span><b>Example:</b> <br>
+        div.header <br>
+        div.header>div.nav
+        </span>
+        </p>
+        <div class="user-code">
+            
+            <div class="user-code__textarea">
+            <textarea #userCode cols="50" rows="15" 
+                      [style.background]="this.backgroundArea"
+                      [style.color]="this.textColorArea"                      
+            ></textarea>
+            </div>
+            
+            <div class="user-code__buttons">               
+             <span> background: <input #bgArea (input)="switchBackground(bgArea.value)" type="color"> </span>
+             <span> text color: <input #txtClr (input)="switchTextColor(txtClr.value)" type="color"> </span>
+              <!--<button (click)="saveTemplate(renderToDo.name)" (click)="OnBtnClicked()"
+                    class="btn save-btn">save</button>-->
+                    <button (click)="_userCode.setUserCode(userCode.value)">save</button>
+                    
+            </div>            
+            
+        </div>
+
+    </div>
+    <div *ngIf="renderToDo.name !== 'user-code'" class="template__code-block code-block" [style.display]="isShow ? 'none' : 'block'">
+
+        <div class="code-block__open-tag">{{renderToDo.header}}</div>
+
+        <div class="code-block__elements" *ngFor="let elem of _elements.items; let i = index">
+            <span (click)="_elements.removeElement(i)" class="elements-deleted">X</span> {{elem.tag}}{{elem.className}}
+            <i (click)="showChildElement()" class="fa fa-level-down elements-icon" aria-hidden="true"></i>
+            <span *ngIf="!isChild"></span>
+            <div *ngIf="isChild" class="elements__child-element">
+                <div class="child-element" *ngFor="let child of _elements.items[i].childs; let i = index">
+                    <span (click)="_elements.removeChildElement(child.name)" class="elements-deleted">X</span> {{child.tag}} {{child.name}}
+                    {{child.closeTag}}
+                </div>
+
+                <span (click)="_elements.addChildElement(tagChild,childClassName,childModifier,elem.name,i)" class="elements-add">+</span>
+
+                <div class="child-element__input-form">
+                    <select #tagChild class="code-block__select">
+            <optgroup label="block elements">
+             <option value="div">div</option>
+             <option value="p">p</option>
+             <option value="section">section</option>
+             <option value="nav">nav</option>
+             <option value="artical">artical</option>
+             <option value="aside">aside</option>
+             <option value="form">form</option>
+             <option value="hr">hr</option>
+            </optgroup>
+            
+            <optgroup label="list-items tags"> 
+             <option value="ul">ul</option>
+             <option value="ol">ol</option>
+             <option value="li">li</option>
+            </optgroup> 
+
+            <optgroup label="table tags">             
+             <option value="table">table</option>
+             <option value="th">th</option>
+             <option value="tr">tr</option>
+             <option value="td">td</option>
+            </optgroup>
+
+            <optgroup label="inline elements">
+             <option value="span">span</option>
+             <option value="a">a</option>
+             <option value="button">button</option>
+             <option value="span">span</option>
+             <option value="img">img</option>
+             <option value="canvas">canvas</option>
+             <option value="input">input</option>
+             <option value="textarea">textarea</option>
+            </optgroup>
+            </select>
+                    <span class="code-block__class">class="</span>
+                    <input #childClassName type="text" class="code-block__name-element name-element--child" placeholder="element name">
+                    <input #childModifier type="text" class="code-block__name-element name-element--child" placeholder="modifier">
+                </div>
+
+            </div>
+            {{elem.closeTag}}
+        </div>
+<!--TOOLTIP-->
+        <div class="code-block__sub-elem">
+            <span (click)="_elements.addElement(tag,renderToDo.name,className,modifier)">+</span>
+            <select [(ngModel)]="tag" class="code-block__select">
+            <optgroup label="block elements">
+             <option value="div">div</option>
+             <option value="p">p</option>
+             <option value="section">section</option>
+             <option value="nav">nav</option>
+             <option value="artical">artical</option>
+             <option value="aside">aside</option>
+             <option value="form">form</option>
+             <option value="hr">hr</option>
+            </optgroup>
+            
+            <optgroup label="list-items tags"> 
+             <option value="ul">ul</option>
+             <option value="ol">ol</option>
+             <option value="li">li</option>
+            </optgroup> 
+
+            <optgroup label="table tags">             
+             <option value="table">table</option>
+             <option value="th">th</option>
+             <option value="tr">tr</option>
+             <option value="td">td</option>
+            </optgroup>
+
+            <optgroup label="inline elements">
+             <option value="span">span</option>
+             <option value="a">a</option>
+             <option value="button">button</option>
+             <option value="span">span</option>
+             <option value="img">img</option>
+             <option value="canvas">canvas</option>
+             <option value="input">input</option>
+             <option value="textarea">textarea</option>
+            </optgroup>
+            </select>
+            <span class="code-block__class">class="</span>
+            <div class="code-block__tooltip">
+                <input [(ngModel)]="className" type="text" class="code-block__name-element" placeholder="element name">
+                <span *ngIf="!_elements.isElemTooltip"></span>
+                <span *ngIf="_elements.isElemTooltip" class="tooltiptext">This field</span> 
+            </div>
+            
+            <span class="code-block__class">"</span>
+            <span *ngIf="!isModifier" (click)="showModifier()" class="code-block__modifier">?</span>
+            <input *ngIf="isModifier" [(ngModel)]="modifier" class="code-block__modifier--input" type="text" placeholder="modifier">
+            <div class="modifier">
+                <p><strong>Modifier:</strong> block__element--modifier</p>
+                Cущность, определяющая внешний вид, состояние или поведение блока либо элемента.
+            </div>
+        </div>
+    <!--TOOLTIP-->
+        <div class="code-block__close-tag">{{renderToDo.closeHeader}}</div>
+    </div>
+    <div class="inp-template__save-btn">
+        <button (click)="saveTemplate(renderToDo.header,renderToDo.closeHeader,renderToDo.name)" (click)="OnBtnClicked()" [hidden]="_elements.items.length < 1"
+            class="btn save-btn">save</button>
+
+    </div>
+
+
+</div>

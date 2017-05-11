@@ -1,0 +1,27 @@
+<div class="nav__container">
+  <ul class="nav__menu">
+    <li *ngFor="let item of _buttonsName">
+      <button class="btn btn--menuButtons"
+              (click)="onItemClicked(item)"
+              [disabled]='item.disabled === true'
+              [ngClass]="{'btn--disbled' : item.disabled === true}"
+              [style.marginLeft.px]="item.margin"
+      >{{item.name}}</button>
+    </li> 
+  </ul>
+   <div [ngClass]="{ready : isReady}" class="nav__btn-ready">
+     <button class="btn btn--ready"
+             (click)="generateProject()">
+       <img src="{{imgPath}}" width="100" alt="img-banana">
+       <p>Banana ready</p>
+      </button>
+   </div>
+ </div>
+  <div class="nav__compile">
+    <button class="btn btn--menuButtons" 
+            (click)="chekMarkButton()" 
+            [disabled]='isOn'
+            [ngClass]="{disabled : isOn}"
+            >GENERATE</button>
+  </div>
+

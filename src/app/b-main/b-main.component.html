@@ -1,0 +1,6 @@
+<main class="main">
+  <app-navigation-buttons (itemClicked)="onNavigationItemClicked($event)" [generateTemplate]="readyTemplate" [nameButtonsSaved]="send" [generatedButton]="disableButton" class="main__nav"></app-navigation-buttons>
+  <app-input-template (sendReadyTemplate)="onSendReadyTemplate($event)" (sendingName)="onSendName($event)" (saveBtnClicked)="onSaveTemplateClicked($event)" [renderToDo]="task" class="main__inp-template"></app-input-template>
+</main>
+
+

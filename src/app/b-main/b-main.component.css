@@ -1,0 +1,23 @@
+.main {
+    display: flex;    
+    padding: 0 4%;    
+}
+
+.main__nav {
+   flex-grow: 1;
+}
+.main__inp-template {
+    flex-grow: 1;
+}
+
+@media screen and (max-width: 767px) and (min-width: 0px) {
+
+    .main > * {
+        display: none;
+    }
+    .main::before {
+        padding: 30% 10%;        
+        content: "Your device is not supported";
+        font-size: 2em;
+    }
+}

@@ -1,0 +1,6 @@
+/* You can add global styles to this file, and also import other style files */
+ 
+@import "./root-styles/normalize.css";
+@import "./root-styles/fonts.css";
+@import "./root-styles/font-awesome/css/font-awesome.min.css";
+body { background-color: #fffcf8; }

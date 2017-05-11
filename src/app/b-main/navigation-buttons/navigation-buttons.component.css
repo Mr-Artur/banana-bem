@@ -1,0 +1,70 @@
+.nav__container {    
+    display: flex;
+}
+
+.nav__menu {
+    list-style: none;
+    padding: 0;
+    width: 140px;
+}
+
+.nav__menu li {
+    margin: 20px 0;
+    transition: margin-left .5s;
+}
+
+.nav__menu li:hover {
+    margin-left: 10px;
+}
+
+.nav__btn-ready {
+    margin: 48px 45px;
+}
+
+.nav__compile {
+    margin: 35px 90px;
+}
+
+.btn {
+    border: 0;
+    border: 1px solid #000;
+    background: transparent;
+    transition: background-color .2s, color .4s;
+}
+.btn:hover { 
+    cursor: pointer;
+    color:#fff68f;
+    background-color:#7e3f12;
+}
+
+.btn--menuButtons {
+    width: 110px;
+    height: 40px;
+    color:#7e3f12;
+}
+.btn--disbled {    
+    color:#fff68f;
+    background-color:#7e3f12;
+    transition: margin-left 0.4s;
+}
+.btn--disbled:hover {
+    cursor: not-allowed;
+}
+.btn:first-letter {
+    text-transform: uppercase;
+}
+.btn--ready {
+    padding: 20px 30px;
+    background-color: #7e3f12;
+    color: #fff68f;
+}
+.ready {
+ display: none;
+}
+.disabled {
+    opacity: 0.4;
+    
+}
+.disabled:hover {
+  cursor: not-allowed;
+}
