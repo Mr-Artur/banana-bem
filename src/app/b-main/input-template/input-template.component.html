@@ -4,41 +4,38 @@
     </p>
     <div *ngIf="renderToDo.name === 'user-code'" class="template__info-user-code">
         <div class="info-user-code">
-        <p>How to use: </p>
-        <p>
-            <b>first:</b> selector , <b>second:</b> <b>.</b>class , <b>third:</b> <b> > </b> add child element.
-            <br>
-            <span><b>Example:</b> <br>
+            <p>How to use: </p>
+            <p>
+                <b>first:</b> selector , <b>second:</b> <b>.</b>class , <b>third:</b> <b> > </b> add child element.
+                <br>
+                <span><b>Example:</b> <br>
         div.header <br>
         div.header>div.nav
         </span>
-        </p>
+            </p>
         </div>
         <div class="info-user-code info-user-code--warning">
-           <span><strong>Warning! </strong> user-code does not work with such examples: </span>
-           <p>
-           <span>div.header>div</span> <br>
-           <span>div>div.header>ul and etc.</span> 
-           </p>
+            <span><strong>Warning! </strong> user-code does not work with such examples: </span>
+            <p>
+                <span>div.header>div</span> <br>
+                <span>div>div.header>ul and etc.</span>
+            </p>
         </div>
         <div class="user-code">
-            
+
             <div class="user-code__textarea">
-            <textarea #userCode cols="50" rows="15" 
-                      [style.background]="this.backgroundArea"
-                      [style.color]="this.textColorArea"                      
-            ></textarea>
+                <textarea #userCode cols="50" rows="15" [style.background]="this.backgroundArea" [style.color]="this.textColorArea"></textarea>
             </div>
-            
-            <div class="user-code__buttons">               
-             <span> background: <input #bgArea (input)="switchBackground(bgArea.value)" type="color"> </span>
-             <span> text color: <input #txtClr (input)="switchTextColor(txtClr.value)" type="color"> </span>
-              <!--<button (click)="saveTemplate(renderToDo.name)" (click)="OnBtnClicked()"
+
+            <div class="user-code__buttons">
+                <span> background: <input #bgArea (input)="switchBackground(bgArea.value)" type="color"> </span>
+                <span> text color: <input #txtClr (input)="switchTextColor(txtClr.value)" type="color"> </span>
+                <!--<button (click)="saveTemplate(renderToDo.name)" (click)="OnBtnClicked()"
                     class="btn save-btn">save</button>-->
-                    <button (click)="_userCode.setUserCode(userCode.value)">save</button>
-                    
-            </div>            
-            
+                <button (click)="_userCode.setUserCode(userCode.value)">save</button>
+
+            </div>
+
         </div>
 
     </div>
@@ -52,8 +49,8 @@
             <span *ngIf="!isChild"></span>
             <div *ngIf="isChild" class="elements__child-element">
                 <div class="child-element" *ngFor="let child of _elements.items[i].childs; let i = index">
-                    <span (click)="_elements.removeChildElement(child.name)" class="elements-deleted">X</span> {{child.tag}} {{child.name}}
-                    {{child.closeTag}}
+                    <span (click)="_elements.removeChildElement(child.name)" class="elements-deleted">X</span> {{child.tag}}
+                    {{child.name}} {{child.closeTag}}
                 </div>
 
                 <span (click)="_elements.addChildElement(tagChild,childClassName,childModifier,elem.name,i)" class="elements-add">+</span>
@@ -103,7 +100,7 @@
             </div>
             {{elem.closeTag}}
         </div>
-<!--TOOLTIP-->
+       
         <div class="code-block__sub-elem">
             <span (click)="_elements.addElement(tag,renderToDo.name,className,modifier)">+</span>
             <select [(ngModel)]="tag" class="code-block__select">
@@ -143,12 +140,10 @@
             </optgroup>
             </select>
             <span class="code-block__class">class="</span>
-            <div class="code-block__tooltip">
-                <input [(ngModel)]="className" type="text" class="code-block__name-element" placeholder="element name">
-                <span *ngIf="!_elements.isElemTooltip"></span>
-                <span *ngIf="_elements.isElemTooltip" class="tooltiptext">This field</span> 
-            </div>
-            
+
+            <input [(ngModel)]="className" type="text" class="code-block__name-element" placeholder="element name">
+
+
             <span class="code-block__class">"</span>
             <span *ngIf="!isModifier" (click)="showModifier()" class="code-block__modifier">?</span>
             <input *ngIf="isModifier" [(ngModel)]="modifier" class="code-block__modifier--input" type="text" placeholder="modifier">
@@ -157,7 +152,7 @@
                 Cущность, определяющая внешний вид, состояние или поведение блока либо элемента.
             </div>
         </div>
-    <!--TOOLTIP-->
+ 
         <div class="code-block__close-tag">{{renderToDo.closeHeader}}</div>
     </div>
     <div class="inp-template__save-btn">

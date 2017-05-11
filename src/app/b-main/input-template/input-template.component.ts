@@ -16,7 +16,7 @@ export class InputTemplateComponent implements OnInit {
   private _userCode: UserCode;
   private _save: SavedTamplate;
   private _navBtnComp: NavigationButtonsComponent;
- 
+
 
   @Input() public renderToDo: string = 'Rendring...';
   @Output() public saveBtnClicked = new EventEmitter();
@@ -31,7 +31,7 @@ export class InputTemplateComponent implements OnInit {
   public isModifier: boolean = false;
   public isChild: boolean = false;
   public backgroundArea: string = "#1E1E1E";
-  public textColorArea: string = "#00d604";  
+  public textColorArea: string = "#00d604";
 
   public switchBackground(color) {
 
@@ -57,7 +57,7 @@ export class InputTemplateComponent implements OnInit {
 
     return temp;
 
-  } 
+  }
 
   public clearForm() {
 
@@ -73,6 +73,15 @@ export class InputTemplateComponent implements OnInit {
     this._templates.splice(0, this._templates.length);
     this._elements.cssRules.splice(0, this._elements.cssRules.length);
     this._elements.cssTemplate.splice(0, this._elements.cssTemplate.length);
+  }
+
+  public clearElement() {
+
+    this.className = "";
+    this.tag = "";
+    this.modifier = "";
+    this.isModifier = false
+
   }
 
   public saveTemplate(block, endBlock, nameBlock) {

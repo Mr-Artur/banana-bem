@@ -106,13 +106,12 @@ export class UserCode {
             if (before === 0 && from !== 0) {
                 from = from + 1;
                 before = arr.length - from;
-                this._classNames.push(arr.substr(from, before - 1));
+                this._classNames.push(arr.substr(from, before));
             }
 
         }
         // if str = div.header>div.nav>ul.menu work this rule ↓        
         else if (typeof (from) === "object" && typeof (before) === "object") {
-            console.log('also not work');
             let step = 0;
             for (let i = 0; i < from.length; i++) {
 
@@ -167,13 +166,35 @@ export class UserCode {
     }
 
     private bundleTemplate(tags, classNames) {
+
+        debugger
+        for (let i = 0; i < tags.length; i++) {
+
+            if (typeof (tags[i]) === 'object') {
+
+                if (typeof (tags[i].child) === 'string') {
+
+                   
+                } else {
+
+                    this._userTemplate.push('my child array');
+
+                }
+
+
+            } else {
+
+                
+            }
+
+        }
         console.log('tags: ');
         console.log(tags);
         console.log('_______');
         console.log('class names: ');
         console.log(classNames);
         console.log('_______');
-
+        console.log(this._userTemplate);
     }
 
     public get userTemplate() {

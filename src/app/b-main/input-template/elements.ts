@@ -1,10 +1,9 @@
+import { InputTemplateComponent } from './input-template.component';
 export class Elements {
     private _elements = [];
     private _cssRules = [];
     private _cssTemplate = [];
-
-    public isElemTooltip: boolean = false;
-
+    private _inpTemplate: InputTemplateComponent;
     private _fixElementName(tags, blockName, classNames, mod) {
 
         let inputStr = classNames;
@@ -74,12 +73,12 @@ export class Elements {
     }
 
     public addElement(tags, blockName, classNames, modifier) {
-
+     
         let mod = modifier;
 
         if (!isNaN(mod[0])) {
 
-            throw new Error("modifier is incorrect: " + mod);
+            alert("modifier is incorrect: " + mod);
 
         } else if (mod === undefined || mod === "") {
 
@@ -93,13 +92,13 @@ export class Elements {
 
         if (tags === undefined || tags === "") {
 
-            throw new Error("tag is empty: " + tags);
+            alert('tag is empty');
 
         }
 
         if (classNames === undefined || classNames === "" || !isNaN(classNames[0])) {
 
-            this.isElemTooltip = true;
+            alert('element name is empty');
 
         } else {
 
