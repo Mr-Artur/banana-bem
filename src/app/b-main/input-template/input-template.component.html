@@ -154,7 +154,7 @@
         <div class="code-block__close-tag">{{renderToDo.closeHeader}}</div>
     </div>
     <div class="inp-template__save-btn">
-        <button (click)="saveTemplate(renderToDo.header, renderToDo.closeHeader, renderToDo.name)"  [hidden]="_elements.items.length < 1" class="btn save-btn">save</button>
+        <button (click)="saveTemplate(renderToDo.header, renderToDo.closeHeader, renderToDo.name)" (click)="OnBtnClicked()" [hidden]="_elements.items.length < 1" class="btn save-btn">save</button>
     </div>
 
 
