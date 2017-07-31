@@ -21,6 +21,11 @@ export class pakerTemplates {
       arr.push(object[i].body);
       arr.push(object[i].endBlock);
 
+      if (object[i].hasOwnProperty("user-code")) {
+        arr.push(object[i]["user-code"].html);
+      }
+
+
     }
 
     let bodyHtml = arr.join('\n');
@@ -52,10 +57,18 @@ export class pakerTemplates {
   }
 
   public setCssCode(object) {
-
+  
     for (let i = 0; i < object.length; i++) {
 
-      this.pakerCss(object[i].endBlock[2], object[i].css)
+      if (object[i].hasOwnProperty("user-code")) {
+
+        this.pakerCss("u", object[i]["user-code"].css);
+
+      } else {
+
+        this.pakerCss(object[i].endBlock[2], object[i].css);
+
+      }
 
     }
 
@@ -67,56 +80,66 @@ export class pakerTemplates {
 
       let name = object[i].endBlock[2];
 
-      switch (name) {
+      if (object[i].hasOwnProperty("user-code")) {
 
-        case 'h':
-          this.links = this.links + '<link rel=\"stylesheet\" href=\"./src/header/header.css\">\n';
-          break;
-        case 'm':
-          this.links = this.links + '<link rel=\"stylesheet\" href=\"./src/main/main.css\">';
-          break;
-        case 'f':
-          this.links = this.links + '\n<link rel=\"stylesheet\" href=\"./src/footer/footer.css\">';
-          break;
-        default:
-          console.log('not correct name' + name);
+        this.links = this.links + '\n<link rel=\"stylesheet\" href=\"./src/user-code/user-code.css\">';
 
+      } else {
+
+        switch (name) {
+
+          case 'h':
+            this.links = this.links + '<link rel=\"stylesheet\" href=\"./src/header/header.css\">\n';
+            break;
+          case 'm':
+            this.links = this.links + '<link rel=\"stylesheet\" href=\"./src/main/main.css\">';
+            break;
+          case 'f':
+            this.links = this.links + '\n<link rel=\"stylesheet\" href=\"./src/footer/footer.css\">';
+            break;
+          default:
+            console.log('not correct name' + name);
+
+        }
       }
     }
 
   }
 
   public pakerCss(name, css) {
-    debugger
-    let arr = [];
-    let lastElement = css.length - 1;
-    let leng = css[lastElement].rules.length;
-    for (let i = 0; i < css[lastElement].rules.length; i++) {
 
-      arr.push(css[lastElement].rules[i]);
+    let arr = [];
+    if (css[0].hasOwnProperty("rules")) {
+
+      let lastElement = css.length - 1;
+      let leng = css[lastElement].rules.length;
+      for (let i = 0; i < css[lastElement].rules.length; i++) {
+
+        arr.push(css[lastElement].rules[i]);
+
+      }
 
     }
-
     let stringCSS = arr.join('\n');
     let cssBody = `
         /* GENERATE WITH BANANA BEM */
         /* THANKS FOR USING ^_^ */
         
-` + css[0].mainRule + '\n' + stringCSS;
+   `;
 
     switch (name) {
 
       case 'h':
-        this._viewTemplate.cssHeader = cssBody;
+        this._viewTemplate.cssHeader = cssBody + css[0].mainRule + '\n' + stringCSS;
         break;
       case 'm':
-        this._viewTemplate.cssMain = cssBody;
+        this._viewTemplate.cssMain = cssBody + css[0].mainRule + '\n' + stringCSS;
         break;
       case 'f':
-        this._viewTemplate.cssFooter = cssBody;
+        this._viewTemplate.cssFooter = cssBody + css[0].mainRule + '\n' + stringCSS;
         break;
       case 'u':
-        this._viewTemplate.cssUser = cssBody;
+        this._viewTemplate.cssUser = cssBody + css;
         break;
       default:
         console.log('not correct name' + name);
@@ -144,10 +167,15 @@ export class pakerTemplates {
 
     if (this._viewTemplate.cssFooter !== "") {
 
-      zip.file("src/footer/footer.css", ".footer {}");
+      zip.file("src/footer/footer.css", this._viewTemplate.cssFooter);
 
     }
 
+    if (this._viewTemplate.cssUser !== "") {
+
+      zip.file("src/user-code/user-code.css", this._viewTemplate.cssUser);
+
+    }
     zip.generateAsync({ type: "base64" })
       .then(function (content) {
         location.href = "data:application/zip;base64," + content;

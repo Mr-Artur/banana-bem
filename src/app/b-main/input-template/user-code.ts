@@ -43,6 +43,7 @@ export class UserCode {
     }
 
     private codeTags(before, from, arr) {
+
         //find all tags in arr[str]        
         // if str = div.header work this rule ↓
         if (typeof (before) === "number" && typeof (from) === "number") {
@@ -52,6 +53,8 @@ export class UserCode {
             }
             if (before === 0 && from === 0) {
                 this._tags.push(arr);
+            } else if (before !== 0 && from !== 0) {
+                console.error('Error: ' + arr);
             }
 
         }
@@ -94,6 +97,8 @@ export class UserCode {
 
             }
 
+        } else {
+            console.error('Error: ' + arr);
         }
 
     }
@@ -166,35 +171,161 @@ export class UserCode {
     }
 
     private bundleTemplate(tags, classNames) {
+   
+        let bundleObj = {
+            html: "",
+            css: ""
+        };
 
-        debugger
-        for (let i = 0; i < tags.length; i++) {
+        if (tags.length == 1 && classNames.length == 1) {
 
-            if (typeof (tags[i]) === 'object') {
+            if (typeof (tags[0]) !== 'object' && typeof (classNames[0]) !== 'object') {
 
-                if (typeof (tags[i].child) === 'string') {
+                for (let i = 0; i < tags.length; i++) {
 
-                   
-                } else {
+                    bundleObj.html = '<' + tags[i] + " class=\"" + classNames[i] + "\"></" + tags[i] + ">";
+                    bundleObj.css = '.' + classNames[i] + " { /*enter your property..*/ }";
 
-                    this._userTemplate.push('my child array');
+                }
+
+            } else if (tags[0].hasOwnProperty("childs")) {
+                //loop bundle for html
+                let children = "";
+
+                for (let i = 0; i < tags[0].childs.length; i++) {
+
+                    children += '<' + tags[0].childs[i]["child-parent"] + " class=\"" + classNames[0].parent + "__" + classNames[0].childs[i]["child-parent"] + "\">\n" +
+                        "<" + tags[0].childs[i].children + " class=\"" + classNames[0].childs[i]["child-parent"] + "__" + classNames[0].childs[i].children + "\"></" + tags[0].childs[i].children + ">"
+                        + "</" + tags[0].childs[i]["child-parent"] + ">";
+
+                }
+
+                bundleObj.html = '<' + tags[0].parent + " class=\"" + classNames[0].parent + "\">\n" +
+                    children + "</" + tags[0].parent + ">";
+
+
+                //loop bundle for css rules
+                bundleObj.css += '.' + classNames[0].parent + " { /*enter your property..*/ }";
+                let lastElem = classNames[0].childs.length - 1;
+                for (let j = 0; j < classNames[0].childs.length; j++) {
+
+                    if (classNames[0].childs.length > 1 && j == lastElem) {
+
+                        bundleObj.css += '.' + classNames[0].childs[j]["child-parent"] + "__" + classNames[0].childs[j].children + " { /*enter your property..*/ }";
+
+                    } else {
+
+                        bundleObj.css += '.' + classNames[0].parent + "__" + classNames[0].childs[j]["child-parent"] + " { /*enter your property..*/ }";
+                        bundleObj.css += '.' + classNames[0].childs[j]["child-parent"] + "__" + classNames[0].childs[j].children + " { /*enter your property..*/ }";
+
+                    }
+
+                }
+
+            } else {
+
+                //loop for bundle html tags user-code
+                for (let i = 0; i < tags.length; i++) {
+
+                    bundleObj.html += '<' + tags[i].parent + " class=\"" + classNames[i].parent + "\">\n" +
+
+                        '<' + tags[i].child + " class=\"" + classNames[i].child + "\">" + "</" + tags[i].child + ">\n"
+
+                        + "</" + tags[i].parent + ">\n";
+
+
+                }
+                //loop for bundle css user-code
+                for (let j = 0; j < classNames.length; j++) {
+
+                    bundleObj.css += '.' + classNames[j].parent + " { /*enter your property..*/ }\n";
+                    bundleObj.css += '.' + classNames[j].child + " { /*enter your property..*/ }\n";
 
                 }
 
 
-            } else {
-
-                
             }
 
+        } else {
+            //loop for bundle user-code have 2 inner or more childs
+            //html tags
+            for (let i = 0; i < tags.length; i++) {
+
+                if (typeof (tags[i]) === 'object') {
+
+                    if (tags[i].hasOwnProperty("childs")) {
+
+                        let children = "";
+
+                        for (let l = 0; l < tags[i].childs.length; l++) {
+
+                            children += '<' + tags[i].childs[l]["child-parent"] + " class=\"" + classNames[i].parent + "__" + classNames[i].childs[l]["child-parent"] + "\">\n " +
+                                "<" + tags[i].childs[l].children + " class=\"" + classNames[i].childs[l]["child-parent"] + "__" + classNames[i].childs[l].children + "\"></" + tags[i].childs[l].children + ">\n"
+                                + "</" + tags[i].childs[l]["child-parent"] + ">\n";
+
+                        }
+
+                        bundleObj.html = '<' + tags[i].parent + " class=\"" + classNames[i].parent + "\">\n " +
+                            children + "</" + tags[i].parent + ">\n";
+
+                    } else {
+                        bundleObj.html += '<' + tags[i].parent + " class=\"" + classNames[i].parent + "\">\n " +
+
+                            '<' + tags[i].child + " class=\"" + classNames[i].parent + "__" + classNames[i].child + "\">" + "</" + tags[i].child + ">\n "
+
+                            + "</" + tags[i].parent + ">\n ";
+                    }
+
+                } else {
+
+                    bundleObj.html = '<' + tags[i] + " class=\"" + classNames[i] + "\"></" + tags[i] + ">";
+
+                }
+            }
+
+            //loop for bundle user-code have 2 inner or more childs
+            //css rules
+            for (let c = 0; c < classNames.length; c++) {
+
+                if (typeof (classNames[c]) === 'object') {
+
+                    if (classNames[c].hasOwnProperty("childs")) {
+
+                        bundleObj.css += '.' + classNames[c].parent + " { /*enter your property..*/ }";
+                        let lastElem = classNames[c].childs.length - 1;
+                        for (let j = 0; j < classNames[c].childs.length; j++) {
+
+                            if (classNames[c].childs.length > 1 && j == lastElem) {
+
+                                bundleObj.css += '.' + classNames[c].childs[j]["child-parent"] + "__" + classNames[c].childs[j].children + " { /*enter your property..*/ }";
+
+                            } else {
+
+                                bundleObj.css += '.' + classNames[c].parent + "__" + classNames[c].childs[j]["child-parent"] + " { /*enter your property..*/ }";
+                                bundleObj.css += '.' + classNames[c].childs[j]["child-parent"] + "__" + classNames[c].childs[j].children + " { /*enter your property..*/ }";
+
+                            }
+
+                        }
+
+                    } else {
+
+                        bundleObj.css += '.' + classNames[c].parent + " { /*enter your property..*/ }";
+                        bundleObj.css += '.' + classNames[c].parent + "__" + classNames[c].child + " { /*enter your property..*/ }";
+
+                    }
+
+                } else {
+
+                    bundleObj.css = '.' + classNames[c] + " { /*enter your property..*/ }";
+
+                }
+
+            }
         }
-        console.log('tags: ');
-        console.log(tags);
-        console.log('_______');
-        console.log('class names: ');
-        console.log(classNames);
-        console.log('_______');
-        console.log(this._userTemplate);
+
+        this._userTemplate.push(bundleObj);
+
     }
 
     public get userTemplate() {

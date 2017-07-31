@@ -30,10 +30,8 @@
             <div class="user-code__buttons">
                 <span> background: <input #bgArea (input)="switchBackground(bgArea.value)" type="color"> </span>
                 <span> text color: <input #txtClr (input)="switchTextColor(txtClr.value)" type="color"> </span>
-                <!--<button (click)="saveTemplate(renderToDo.name)" (click)="OnBtnClicked()"
-                    class="btn save-btn">save</button>-->
-                <button (click)="_userCode.setUserCode(userCode.value)">save</button>
-
+                <button (click)="_userCode.setUserCode(userCode.value)" (click)="saveTemplate([],[],renderToDo.name)" (click)="OnBtnClicked()"
+                    class="btn save-btn">save</button>
             </div>
 
         </div>
@@ -100,7 +98,7 @@
             </div>
             {{elem.closeTag}}
         </div>
-       
+
         <div class="code-block__sub-elem">
             <span (click)="_elements.addElement(tag,renderToDo.name,className,modifier)">+</span>
             <select [(ngModel)]="tag" class="code-block__select">
@@ -152,13 +150,11 @@
                 Cущность, определяющая внешний вид, состояние или поведение блока либо элемента.
             </div>
         </div>
- 
+
         <div class="code-block__close-tag">{{renderToDo.closeHeader}}</div>
     </div>
     <div class="inp-template__save-btn">
-        <button (click)="saveTemplate(renderToDo.header,renderToDo.closeHeader,renderToDo.name)" (click)="OnBtnClicked()" [hidden]="_elements.items.length < 1"
-            class="btn save-btn">save</button>
-
+        <button (click)="saveTemplate(renderToDo.header, renderToDo.closeHeader, renderToDo.name)"  [hidden]="_elements.items.length < 1" class="btn save-btn">save</button>
     </div>
 
 

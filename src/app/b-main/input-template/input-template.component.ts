@@ -12,13 +12,13 @@ import { UserCode } from './user-code';
 export class InputTemplateComponent implements OnInit {
   private _templates = [];
 
-  private _elements: Elements;
+  public _elements: Elements;
   private _userCode: UserCode;
   private _save: SavedTamplate;
   private _navBtnComp: NavigationButtonsComponent;
 
 
-  @Input() public renderToDo: string = 'Rendring...';
+  @Input() public renderToDo;
   @Output() public saveBtnClicked = new EventEmitter();
   @Output() public sendingName = new EventEmitter();
   @Output() public sendReadyTemplate = new EventEmitter();
@@ -84,11 +84,12 @@ export class InputTemplateComponent implements OnInit {
 
   }
 
-  public saveTemplate(block, endBlock, nameBlock) {
+  public saveTemplate(block, endBlock, nameBlock):void {
 
     let obj = "";
     let child = "";
     this.templateName = nameBlock;
+    let userCode = this._userCode.userTemplate;
 
     for (let i = 0; i < this._elements.items.length; i++) {
 
@@ -109,13 +110,16 @@ export class InputTemplateComponent implements OnInit {
       child = "";
 
     }
-
     this._templates.push({
       "block": block,
       "body": obj,
       "endBlock": endBlock,
       "css": [].concat(this._elements.cssTemplate)
     });
+
+    if (userCode.length !== 0) {
+      this._templates[0]["user-code"] = userCode[0];
+    }
 
     for (let i = 0; i < this._templates.length; i++) {
 
@@ -127,9 +131,9 @@ export class InputTemplateComponent implements OnInit {
 
   }
 
-  public OnBtnClicked(boolean) {
+  public OnBtnClicked() {
 
-    boolean = false;
+    let boolean = false;
 
     this.saveBtnClicked.emit(boolean);
     this.sendingName.emit(this.templateName);

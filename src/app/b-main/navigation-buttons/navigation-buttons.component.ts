@@ -13,7 +13,7 @@ import { InputTemplateComponent } from '../input-template/input-template.compone
 })
 
 export class NavigationButtonsComponent implements OnInit {
-  private _buttonsName = [];
+  public _buttonsName = [];
   private _buttonHeader: ButtonHeader;
   private _buttonMain: ButtonMain;
   private _buttonFooter: ButtonFooter;
@@ -32,7 +32,7 @@ export class NavigationButtonsComponent implements OnInit {
 
   public isOn = this.generatedButton;
   public isReady = true;
-  public imgPath: string = './src/app/b-main/navigation-buttons/img/banana.png';
+  public imgPath: string = './src/assets/img/banana.png';
 
   constructor() {
 
@@ -117,7 +117,7 @@ export class NavigationButtonsComponent implements OnInit {
   }
 
   public generateProject() {
-
+ 
     this._paker.setHtmlCode(this.generateTemplate);
     this._paker.setCssCode(this.generateTemplate);
     this._paker.generateZip();
@@ -141,7 +141,7 @@ export class NavigationButtonsComponent implements OnInit {
       this.markButton(this.nameButtonsSaved);
 
     }
-    
+
   }
 
 }
